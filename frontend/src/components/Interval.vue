@@ -1,7 +1,14 @@
 <script setup>
 import { reactive, watchEffect, watch, ref } from 'vue'
-import Date from './Date.vue'
-import ChartComponent from './Chart.vue'
+import Date from '@/components/Date.vue'
+import ChartComponent from '@/components/Chart.vue'
+import Alert from '@/components/Alert.vue'
+
+import validateInterval from '@/domain/interval';
+import clearAlertAfterSpecifiedTime from '@/domain/alert.js';
+import { useAlertStore } from '../stores/alert';
+
+const alertStore = useAlertStore()
 
 const props = defineProps({
     startDate: {
@@ -17,9 +24,17 @@ const props = defineProps({
 const startDate = ref(props.startDate)
 const endDate = ref(props.endDate)
 
-watch(startDate, (newValue, oldValue) => {
-    console.log(newValue, oldValue)
-})
+const validarIntervalo = () => {
+    try {
+        validateInterval(startDate.value, endDate.value)
+        alertStore.success('Intervalo válido')
+        clearAlertAfterSpecifiedTime(alertStore, 5);
+    }
+    catch (error) {
+        alertStore.error(error.message)
+        clearAlertAfterSpecifiedTime(alertStore, 5);
+    }
+}
 
 const formatOfDate = '##/##/####'
 
@@ -46,7 +61,7 @@ defineEmits(['update:startDate', 'update:endDate', 'change'])
                 @input="endDate = $event.target.value"
                 @change="$emit('update:endDate', endDate)"/>
         </div>
-        <button @click="validarIntervalo($event)" type="button">Filtrar</button>
+        <button @click="validarIntervalo()" type="button">Filtrar</button>
     </div>
 </template>
 
