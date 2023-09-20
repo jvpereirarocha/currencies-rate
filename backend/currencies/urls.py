@@ -14,10 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from currencies.views import index, get_currencies_rates
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/v1/currencies/", include("currencies.urls")),
+    path("", index, name="index"),
+    path("get_currencies_rates/", get_currencies_rates, name="get_currencies_rates"),
 ]
