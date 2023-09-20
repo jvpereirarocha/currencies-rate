@@ -5,4 +5,5 @@ class AbstractRepository(ABC):
     """
     Base class for repositories.
     """
+
     pass

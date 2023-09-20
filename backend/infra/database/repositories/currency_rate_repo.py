@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional, Set
 from domain.abstractions.repository.abstract_currency_rate_repository import (
-    AbstractCurrencyRateRepository
+    AbstractCurrencyRateRepository,
 )
 from domain.entities.currency import CurrencyRate as CurrencyRateEntity
 from domain.entities.currency import Currency as CurrencyEntity
@@ -12,25 +12,24 @@ from domain.value_objects.rate import Rate
 
 
 class CurrencyRateRepo(AbstractCurrencyRateRepository):
-
-    def _filter_currency_by_abbrevation_name(self, currency: str) -> Optional[CurrencyORM]:
+    def _filter_currency_by_abbreviation_name(
+        self, currency: str
+    ) -> Optional[CurrencyORM]:
         return CurrencyORM.objects.filter(abbreviation__iexact=currency).first()
 
     def get_currency_rate_by_name_abbreviation_and_date(
         self, currency: str, date: date
     ) -> Optional[CurrencyRateEntity]:
-        
-        orm_currency = self._filter_currency_by_abbrevation_name(currency)
+        orm_currency = self._filter_currency_by_abbreviation_name(currency)
         if orm_currency is None:
             return
-        
+
         orm_currency_rate = CurrencyRateORM.objects.filter(
-            currency_id=orm_currency.currency_id,
-            date=date
+            currency_id=orm_currency.currency_id, date=date
         ).first()
         if orm_currency_rate is None:
             return
-        
+
         return CurrencyRateEntity(
             rate_id=orm_currency_rate.currency_rate_id,
             currency=CurrencyEntity(
