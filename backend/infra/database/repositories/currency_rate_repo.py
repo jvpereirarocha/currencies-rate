@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional, Set
+from typing import Optional, Set, TYPE_CHECKING
 from domain.abstractions.repository.abstract_currency_rate_repository import (
     AbstractCurrencyRateRepository,
 )
@@ -10,8 +10,14 @@ from currencies.models import Currency as CurrencyORM
 from domain.value_objects.currency_date import Date
 from domain.value_objects.rate import Rate
 
+if TYPE_CHECKING:
+    from django.db.models import Model
+
 
 class CurrencyRateRepo(AbstractCurrencyRateRepository):
+    def __init__(self) -> None:
+        self._entities_to_commit: Set[Model] = set()
+
     def _filter_currency_by_abbreviation_name(
         self, currency: str
     ) -> Optional[CurrencyORM]:
@@ -42,9 +48,29 @@ class CurrencyRateRepo(AbstractCurrencyRateRepository):
         )
 
     def save_currency_rate(self, currency_rate: CurrencyRateEntity) -> None:
-        CurrencyRateORM.objects.create(
-            currency_rate_id=currency_rate.rate_id,
+        currency_orm = CurrencyORM(
             currency_id=currency_rate.currency.currency_id,
-            rate=currency_rate.rate.value,
-            date=currency_rate.date.value,
+            name=currency_rate.currency.name,
+            abbreviation=currency_rate.currency.abbreviation,
         )
+        currency_rate_orm = CurrencyRateORM(
+            currency_rate_id=currency_rate.rate_id,
+            currency=currency_orm.currency_id,
+            rate=currency_rate.rate.value,
+            date=date(
+                year=currency_rate.date.year,
+                month=currency_rate.date.month,
+                day=currency_rate.date.day
+            ),
+        )
+        self._entities_to_commit.add(currency_orm)
+        self._entities_to_commit.add(currency_rate_orm)
+
+    def commit(self) -> None:
+        for entity in self._entities_to_commit:
+            entity.save()
+
+        self._entities_to_commit.clear()
+
+    def rollback(self) -> None:
+        self._entities_to_commit.clear()
