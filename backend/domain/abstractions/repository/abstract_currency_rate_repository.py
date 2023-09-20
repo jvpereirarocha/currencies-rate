@@ -16,3 +16,11 @@ class AbstractCurrencyRateRepository(AbstractRepository):
     @abstractmethod
     def save_currency_rate(self, currency_rate: CurrencyRate) -> None:
         raise NotImplementedError()
+    
+    @abstractmethod
+    def commit(self) -> None:
+        raise NotImplementedError()
+    
+    @abstractmethod
+    def rollback(self) -> None:
+        raise NotImplementedError()
