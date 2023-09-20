@@ -15,7 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from currencies.views import index, get_currencies_rates
+from currencies.views.index import index
+from currencies.views.currency_rates import get_currencies_rates
 
 urlpatterns = [
     path("", index, name="index"),
