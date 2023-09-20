@@ -12,16 +12,15 @@ from domain.value_objects.rate import Rate
 
 
 class CurrencyRateRepo(AbstractCurrencyRateRepository):
-    def __init__(
-        self,
-    ):
-        self._entities: Set[CurrencyRateEntity] = set()
+
+    def _filter_currency_by_abbrevation_name(self, currency: str) -> Optional[CurrencyORM]:
+        return CurrencyORM.objects.filter(abbreviation__iexact=currency).first()
 
     def get_currency_rate_by_name_abbreviation_and_date(
         self, currency: str, date: date
     ) -> Optional[CurrencyRateEntity]:
         
-        orm_currency = CurrencyORM.objects.filter(abbreviation__iexact=currency).first()
+        orm_currency = self._filter_currency_by_abbrevation_name(currency)
         if orm_currency is None:
             return
         
