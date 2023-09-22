@@ -16,3 +16,7 @@ This project get data from an API that handle with currencies rate tax with spec
 4. Create a new `.env` file in the project root (See the env_example file and change with your configs)
 5. In the project root, run the command `pip install -r requirements.txt`. This command will install all of the project requirements
 6. Now, just run the command `python manage.py runserver <your_allowed_host>`. Ex: My ALLOWED_HOST in the .env file is `http://localhost:8080` so I'm running `python manage.py runserver 0.0.0.0:8080`. Check yours and just play with the API :)
+
+
+
+API Documentation is in [this link](https://documenter.getpostman.com/view/6353984/2s9YCBupQ1)
