@@ -60,7 +60,7 @@ class CurrencyRateRepo(AbstractCurrencyRateRepository):
             date=date(
                 year=currency_rate.date.year,
                 month=currency_rate.date.month,
-                day=currency_rate.date.day
+                day=currency_rate.date.day,
             ),
         )
         self._entities_to_commit.add(currency_orm)
