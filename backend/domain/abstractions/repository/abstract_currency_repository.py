@@ -1,20 +1,24 @@
 from abc import ABC, abstractmethod
 from datetime import date
-from typing import Optional, Set
+from typing import List
 
-from domain.entities.currency import CurrencyRate
+from domain.entities.currency import Currency
 from domain.abstractions.repository.abstract_repo import AbstractRepository
 
 
-class AbstractCurrencyRateRepository(AbstractRepository):
+class AbstractCurrencyRepository(AbstractRepository):
     @abstractmethod
-    def get_currency_rate_by_name_abbreviation_and_date(
-        self, currency: str, date: date
-    ) -> Optional[CurrencyRate]:
+    def get_currency_by_name_and_abbreviation(
+        self, name: str, abbreviation: str
+    ) -> Currency:
         raise NotImplementedError()
 
     @abstractmethod
-    def save_currency_rate(self, currency_rate: CurrencyRate) -> None:
+    def save_currency(self, name: str, abbreviation: str) -> Currency:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_all_currencies(self) -> List[Currency]:
         raise NotImplementedError()
 
     @abstractmethod

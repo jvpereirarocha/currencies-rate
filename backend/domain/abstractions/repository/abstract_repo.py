@@ -5,7 +5,7 @@ class AbstractRepository(ABC):
     """
     Base class for repositories.
     """
-    
+
     @abstractmethod
     def commit(self):
         """
