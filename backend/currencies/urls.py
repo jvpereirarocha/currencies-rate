@@ -17,6 +17,7 @@ Including another URLconf
 from django.urls import path
 from currencies.views.index import index
 from currencies.views.currencies_view import register_new_currency, get_all_currencies
+from currencies.views.get_currencies_rate_view import get_currencies_rate_view
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -27,4 +28,5 @@ urlpatterns = [
         csrf_exempt(register_new_currency),
         name="register_new_currency",
     ),
+    path("get_currencies_rate/", get_currencies_rate_view, name="get_currencies_rate"),
 ]
