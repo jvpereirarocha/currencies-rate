@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, TYPE_CHECKING
 from uuid import UUID, uuid4
+from domain.entities.base_currency import Entity
 
 from domain.value_objects.currency_date import Date
 from domain.value_objects.rate import Rate
@@ -11,14 +12,14 @@ if TYPE_CHECKING:
 
 
 @dataclass()
-class Currency:
+class Currency(Entity):
     currency_id: UUID
     name: str
     abbreviation: str
 
 
 @dataclass()
-class CurrencyRate:
+class CurrencyRate(Entity):
     rate_id: UUID
     currency: Currency
     rate: Rate

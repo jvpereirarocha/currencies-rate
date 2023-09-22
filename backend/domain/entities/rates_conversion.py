@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 from uuid import UUID
+from domain.entities.base_currency import Entity
 
 from domain.entities.currency import CurrencyRate
 from domain.value_objects.interval_of_dates import IntervalOfDates
 
 
 @dataclass()
-class CurrenciesRatesConversion:
+class CurrenciesRatesConversion(Entity):
     """
     This entity represents a conversion between two currencies rates
     """
