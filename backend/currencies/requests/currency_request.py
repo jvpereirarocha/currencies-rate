@@ -1,3 +1,4 @@
+from currencies.requests import validators
 from domain.abstractions.requests.abstract_request import AbstractRequest
 
 from typing_extensions import Annotated
@@ -10,14 +11,7 @@ class CurrencyModel(BaseModel):
 
     @field_validator("abbreviation")
     def validate_abbreviation(cls, value: str) -> str:
-        if len(value) != 3:
-            raise ValueError("O campo abreviação deve ter no máximo 3 caracteres")
-        if not value.isalpha():
-            raise ValueError("O campo abreviação deve ser exclusivamente letras")
-        if not value.isupper():
-            raise ValueError("O campo abreviação deve ter letras maiúsculas. Ex: USD")
-
-        return value
+        return validators.validate_abbreviation_currency(value)
 
 
 class CurrencyRequest(AbstractRequest):
