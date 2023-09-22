@@ -12,7 +12,9 @@ class Response:
         self.response_data = response_data
 
     def _validate_type_of_response(self) -> None:
-        if not self.response_data["type_of_response"] or self.response_data["type_of_response"] not in [
+        if not self.response_data["type_of_response"] or self.response_data[
+            "type_of_response"
+        ] not in [
             "success",
             "error",
         ]:
@@ -29,4 +31,7 @@ class Response:
 
     def build_response(self) -> Tuple[str, int]:
         self._validate_type_of_response()
-        return json.dumps(self._response_as_dictionary()), self.response_data["status_code"]
+        return (
+            json.dumps(self._response_as_dictionary()),
+            self.response_data["status_code"],
+        )

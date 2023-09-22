@@ -16,11 +16,15 @@ Including another URLconf
 """
 from django.urls import path
 from currencies.views.index import index
-from currencies.views.currencies_view import register_new_currency
+from currencies.views.currencies_view import register_new_currency, get_all_currencies
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path("", index, name="index"),
-    # path("get_currencies_rates/", get_currencies_rates, name="get_currencies_rates"),
-    path("register_new_currency/", csrf_exempt(register_new_currency), name="register_new_currency"),
+    path("get_all/", get_all_currencies, name="get_all_currencies"),
+    path(
+        "register_new_currency/",
+        csrf_exempt(register_new_currency),
+        name="register_new_currency",
+    ),
 ]

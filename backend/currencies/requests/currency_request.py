@@ -38,3 +38,11 @@ class CurrencyRequest(AbstractRequest):
             CurrencyModel(name=self.name, abbreviation=self.abbreviation)
         except Exception as error:
             raise Exception(error)
+
+
+class GetAllCurrenciesRequest(AbstractRequest):
+    def __init__(self, **kwargs) -> None:
+        self.validate()
+
+    def validate(self) -> None:
+        pass
