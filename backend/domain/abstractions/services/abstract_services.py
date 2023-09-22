@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Dict, List
 from domain.abstractions.repository.abstract_repo import AbstractRepository
 
 from domain.abstractions.requests.abstract_request import AbstractRequest
@@ -26,5 +27,17 @@ class AbstractService(ABC):
     def make_response(self) -> ResponseData:
         """
         Makes a response.
+        """
+        raise NotImplementedError()
+
+
+class AbstractExternalAPIService(ABC):
+    def __init__(self, query_params: Dict[str, str] = {}) -> None:
+        self.query_params = query_params
+
+    @abstractmethod
+    def make_api_call(self) -> None:
+        """
+        Makes an API call.
         """
         raise NotImplementedError()
